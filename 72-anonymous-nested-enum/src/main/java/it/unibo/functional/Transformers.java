@@ -54,13 +54,11 @@ public final class Transformers {
      * @return A transformed list where each input element is replaced with the produced elements
      */
     public static <I, O> List<O> transform(final Iterable<I> base, final Function<I, O> transformer) {
-        return flattenTransform(base, new Function<I,List<? extends O>> () {
-            
+        return flattenTransform(base, new Function<I, List<? extends O>>() {
             @Override
-            public List<? extends O> call(I input) {
+            public List<? extends O> call(final I input) {
                 return List.of(transformer.call(input));
             }
-
         });
     }
 
@@ -77,7 +75,7 @@ public final class Transformers {
      * @return A flattened list with the elements of each collection in the input
      */
     public static <I> List<? extends I> flatten(final Iterable<? extends Collection<? extends I>> base) {
-        return flattenTransform(base,Function.identity());
+        return flattenTransform(base, Function.identity());
     }
 
     /**
@@ -95,12 +93,10 @@ public final class Transformers {
      */
     public static <I> List<I> select(final Iterable<I> base, final Function<I, Boolean> test) {
         return flattenTransform(base, new Function<>() {
-
             @Override
-            public Collection<? extends I> call(I input) {
+            public Collection<? extends I> call(final I input) {
                 return test.call(input) ? List.of(input) : List.of();
             }
-            
         });
     }
 
@@ -117,13 +113,11 @@ public final class Transformers {
      * @return A list containing only the elements that passed the test
      */
     public static <I> List<I> reject(final Iterable<I> base, final Function<I, Boolean> test) {
-        return select(base, new Function<I,Boolean>() {
-
+        return select(base, new Function<>() {
             @Override
-            public Boolean call(I input) {
+            public Boolean call(final I input) {
                 return !test.call(input);
             }
-            
         });
     }
 }
